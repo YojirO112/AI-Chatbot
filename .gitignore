@@ -1,5 +1,14 @@
-backend/.env
+# Python
 venv/
-__pycache__/
+backend/venv/
+**/__pycache__/
 *.pyc
-node_modules/
+
+# Environment variables
+backend/.env
+
+# Node
+frontend/node_modules/
+
+# Build folders
+frontend/dist/
