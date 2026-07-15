@@ -111,7 +111,7 @@ function App() {
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={() => {
               sendMessage(message);
-            }} disabled={loading}>
+            }} disabled={loading || !message.trim()}>
             {loading ? "Sending ..." : "Send"}
           </button>
         </footer>
