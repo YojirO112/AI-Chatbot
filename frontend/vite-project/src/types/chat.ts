@@ -1,4 +1,5 @@
 export type ChatMessages = {
-    sender: string,
-    text: string
+    sender: "user" | "ai",
+    text: string,
+    timestamp: Date;
 }

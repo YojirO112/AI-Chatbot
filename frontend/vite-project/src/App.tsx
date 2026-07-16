@@ -14,7 +14,8 @@ function App() {
       ...prev,
       {
         sender: "user",
-        text: message
+        text: message,
+        timestamp: new Date()
       }
     ])
     setMessage("");
@@ -35,7 +36,8 @@ function App() {
         ...prev,
         {
           sender: "ai",
-          text: data.reply
+          text: data.reply,
+          timestamp: new Date()
         }
       ])
     } catch (error) {
@@ -44,7 +46,8 @@ function App() {
         ...prev,
         {
           sender: "ai",
-          text: "Something went wrong"
+          text: "Something went wrong",
+          timestamp: new Date()
         }
       ])
     }
@@ -59,13 +62,19 @@ function App() {
       behavior: "smooth",
     });
   }, [messages])
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (!loading) {
       inputRef.current?.focus();
     }
   }, [loading])
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.height = "auto";
+      inputRef.current.style.height = inputRef.current.scrollHeight + "px"
+    }
+  }, [message])
 
   return (
     <div className="h-screen bg-gray-100">
@@ -95,13 +104,18 @@ function App() {
 
         </main>
         <footer className="flex gap-4 py-4">
-          <input
+          <textarea
             ref={inputRef}
-            className="flex-1 border rounded px-4 py-2"
+            placeholder="Type your message..."
+            className="flex-1 border rounded px-4 py-2 resize-none"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
+              if (e.key === "Enter" && e.shiftKey) {
+                return
+              }
               if (e.key === "Enter") {
+                e.preventDefault();
                 sendMessage(message)
               }
             }}
